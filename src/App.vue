@@ -8,13 +8,13 @@
   </header>
 
   <main>
-    <GameBoard2 />
+    <GameBoard />
   </main>
 </template>
 
 <script setup>
   import Header from './components/Header.vue';
-  import GameBoard2 from "./components/GameBoard2.vue";
+  import GameBoard from "./components/GameBoard.vue";
 
   const mainTitle = 'Vue pexeso';
   const subTitle = 'Ukázkový projekt';

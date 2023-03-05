@@ -1,63 +1,54 @@
 <template>
-  {{visibleCards}}
-  <div class="gameboard__card" @click="activateCard(cardElement)" :class="{'gameboard__card--active': activedCard}">
+  <div class="gameboard__card" :disabled="cardsAreSame" :class="{'gameboard__card--active': isActive, 'gameboard__card--same': cardsAreSame}">
     <div class="gameboard__side gameboard__side--front">
-      <div>PEXESO {{ cardElement }} {{removeActiveClass}}</div>
+      <div class="gameboard__logo">
+        <img alt="Vue logo" class="logo" src="../assets/logo.svg" width="60" height="60" />
+      </div>
     </div>
     <div class="gameboard__side gameboard__side--back">
-      <div>{{ cardElement }} {{removeActiveClass}}</div>
+      <div>{{ cardElement }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref, toRefs, watch} from 'vue';
+import { toRefs, computed } from 'vue';
 
   const props = defineProps({
-    visibleCards: () => [],
     cardElement: String,
-    clickCount: Number,
-    removeActiveClass: Boolean
+    index: Number,
+    visibleCards: Array,
+    active: Array,
   })
 
-  const emit = defineEmits(['clickedCard', 'resetCount'])
-  const activedCard = ref(false);
+  const {cardElement, index, visibleCards, active} = toRefs(props)
 
-  const {removeActiveClass, visibleCards} = toRefs(props)
-
-  watch(removeActiveClass, (newValue) => {
-    checkState(newValue);
-  });
-
-  function checkState(newValue) {
-    if (newValue) {
-      setTimeout(() => {
-        activedCard.value = false;
-      }, 1500)
+  const isActive = computed(() => {
+    if (visibleCards.value.includes(cardElement.value)) {
+      return true
     }
+    return active.value.some(item => item.index === index.value);
+  })
 
-    emit('resetCount', true);
-  }
-
-  function activateCard(cardElement) {
-    if (props.clickCount < 2) {
-      activedCard.value = true;
-    }
-
-    emit('clickedCard', cardElement);
-  }
+  const cardsAreSame = computed( () => {
+    return visibleCards.value.length > 0 && visibleCards.value.includes(cardElement.value);
+  })
 </script>
 
 <style scoped>
   .gameboard__card {
     perspective: 150rem;
     position: relative;
-    box-shadow: none;
-    background: none;
+    cursor: pointer;
+  }
+
+  .gameboard__logo {
+    background: #fff;
+    border-radius: 999rem;
   }
 
   .gameboard__side {
-    transition: all 0.8s ease;
+    transition: all 0.4s ease;
     backface-visibility: hidden;
     position: absolute;
     display: flex;
@@ -73,13 +64,14 @@ import {ref, toRefs, watch} from 'vue';
     color: #fff;
   }
 
-  .gameboard__side.gameboard__side--back {
+  .gameboard__side--back {
+    font-size: 3.5rem;
     transform: rotateY(-180deg);
     background-color: #4158D0;
     background-image: linear-gradient(43deg, #4158D0 0%,#C850C0 46%, #FFCC70 100%);
   }
 
-  .gameboard__side.gameboard__side--front {
+  .gameboard__side--front {
     background-color: #0093E9;
     background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
   }
@@ -90,5 +82,15 @@ import {ref, toRefs, watch} from 'vue';
 
   .gameboard__card.gameboard__card--active .gameboard__side.gameboard__side--back {
     transform: rotateY(0deg);
+  }
+
+  .gameboard__card--same {
+    opacity: .25;
+    transition: opacity 2s;
+  }
+
+  .gameboard__card.gameboard__card--active,
+  .gameboard__card--same {
+    pointer-events: none;
   }
 </style>

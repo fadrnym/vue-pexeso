@@ -33,3 +33,14 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## toDo
+
+- podpora více hráčů
+- ukádání hry do storage
+- časomíra
+- načítání obrázků z API
+- zadávání vlastních obrázků
+- graficky vylepšit
+- určení počtu kartiček
+- žebříček nejlepších hráčů
