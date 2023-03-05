@@ -1,7 +1,9 @@
 <template>
-  <div class="gameboard__card" :class="{'gameboard__card--active': isActive, 'gameboard__card--same': areSame}">
+  <div class="gameboard__card" :disabled="cardsAreSame" :class="{'gameboard__card--active': isActive, 'gameboard__card--same': cardsAreSame}">
     <div class="gameboard__side gameboard__side--front">
-      <div>{{ cardElement }}</div>
+      <div class="gameboard__logo">
+        <img alt="Vue logo" class="logo" src="../assets/logo.svg" width="60" height="60" />
+      </div>
     </div>
     <div class="gameboard__side gameboard__side--back">
       <div>{{ cardElement }}</div>
@@ -10,7 +12,7 @@
 </template>
 
 <script setup>
-import {toRefs, computed} from 'vue';
+import { toRefs, computed } from 'vue';
 
   const props = defineProps({
     cardElement: String,
@@ -22,15 +24,13 @@ import {toRefs, computed} from 'vue';
   const {cardElement, index, visibleCards, active} = toRefs(props)
 
   const isActive = computed(() => {
-
     if (visibleCards.value.includes(cardElement.value)) {
       return true
     }
-
     return active.value.some(item => item.index === index.value);
   })
 
-  const areSame = computed( () => {
+  const cardsAreSame = computed( () => {
     return visibleCards.value.length > 0 && visibleCards.value.includes(cardElement.value);
   })
 </script>
@@ -39,12 +39,16 @@ import {toRefs, computed} from 'vue';
   .gameboard__card {
     perspective: 150rem;
     position: relative;
-    box-shadow: none;
-    background: none;
+    cursor: pointer;
+  }
+
+  .gameboard__logo {
+    background: #fff;
+    border-radius: 999rem;
   }
 
   .gameboard__side {
-    transition: all 0.8s ease;
+    transition: all 0.4s ease;
     backface-visibility: hidden;
     position: absolute;
     display: flex;
@@ -60,13 +64,14 @@ import {toRefs, computed} from 'vue';
     color: #fff;
   }
 
-  .gameboard__side.gameboard__side--back {
+  .gameboard__side--back {
+    font-size: 3.5rem;
     transform: rotateY(-180deg);
     background-color: #4158D0;
     background-image: linear-gradient(43deg, #4158D0 0%,#C850C0 46%, #FFCC70 100%);
   }
 
-  .gameboard__side.gameboard__side--front {
+  .gameboard__side--front {
     background-color: #0093E9;
     background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
   }
@@ -81,5 +86,11 @@ import {toRefs, computed} from 'vue';
 
   .gameboard__card--same {
     opacity: .25;
+    transition: opacity 2s;
+  }
+
+  .gameboard__card.gameboard__card--active,
+  .gameboard__card--same {
+    pointer-events: none;
   }
 </style>
