@@ -1,21 +1,23 @@
 <template>
   <div class="greetings">
     <h1 class="green">
-      {{ h1msg }}
+      {{ mainTitle }}
     </h1>
     <h3>
-      {{ h3msg }}
+      {{ subTitle }}
     </h3>
   </div>
 </template>
 
 <script setup>
   defineProps({
-    h1msg: {
-      type: String
+    mainTitle: {
+      type: String,
+      required: true
     },
-    h3msg: {
-      type: String
+    subTitle: {
+      type: String,
+      required: true
     },
   })
 </script>
@@ -24,7 +26,6 @@
   h1 {
     font-weight: 500;
     font-size: 2.6rem;
-    top: -.625rem;
   }
 
   h3 {

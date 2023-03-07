@@ -2,6 +2,7 @@
   <div class="gameboard__card" :disabled="cardsAreSame" :class="{'gameboard__card--active': isActive, 'gameboard__card--same': cardsAreSame}">
     <div class="gameboard__side gameboard__side--front">
       <div class="gameboard__logo">
+        {{ cardElement }}
         <img alt="Vue logo" class="logo" src="../assets/logo.svg" width="60" height="60" />
       </div>
     </div>
@@ -21,11 +22,11 @@ import { toRefs, computed } from 'vue';
     active: Array,
   })
 
-  const {cardElement, index, visibleCards, active} = toRefs(props)
+  const {cardElement, index, visibleCards, active} = toRefs(props);
 
   const isActive = computed(() => {
     if (visibleCards.value.includes(cardElement.value)) {
-      return true
+      return true;
     }
     return active.value.some(item => item.index === index.value);
   })
@@ -86,10 +87,10 @@ import { toRefs, computed } from 'vue';
 
   .gameboard__card--same {
     opacity: .25;
-    transition: opacity 2s;
+    transition: opacity .5s;
   }
 
-  .gameboard__card.gameboard__card--active,
+  .gameboard__card--active,
   .gameboard__card--same {
     pointer-events: none;
   }

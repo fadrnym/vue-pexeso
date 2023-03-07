@@ -3,7 +3,7 @@
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <Header :h1msg="mainTitle" :h3msg="subTitle" />
+      <Header :mainTitle="mainTitle" :subTitle="subTitle" />
     </div>
   </header>
 

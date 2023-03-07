@@ -28,7 +28,7 @@
         <div class="mb-4">
           <h3 class="mb-3">Hráč</h3>
           <ul v-if="playerName.length" class="list-group">
-            <li class="list-group-item" v-for="(player, index) in playerName" :key="index">
+            <li class="list-group-item text-dark" v-for="(player, index) in playerName" :key="index">
               <span class="badge badge-pill badge-success mr-1"> {{ index + 1 }} </span> {{ player }}
             </li>
           </ul>
@@ -50,14 +50,13 @@
 
       <div v-if="winner">
         <div class="alert alert-info text-center mt-3">{{ playerName[0] }} vyhrál/a hru!</div>
-
         <button class="btn btn-info btn-block" @click="restartGame">Hrát znovu?</button>
       </div>
     </div>
     <div class="col-12 col-md-8 d-flex justify-content-end">
       <div v-if="gameWasStarted" class="gameboard">
         <template v-for="(card, index) in shuffledCards" :key="index">
-          <Card :cardElement="card.element" :visibleCards="visibleCards" :active="active" :index="index" @click="handleCardClick(card.element, index)" />
+          <Card :cardElement="card" :visibleCards="visibleCards" :active="active" :index="index" @click="handleCardClick(card, index)" />
         </template>
       </div>
 
@@ -83,41 +82,7 @@
   const showDisplayBtn = ref(false);
   const winner = ref(false);
   const playerIsSet = ref(false);
-
-  const gameBoard = [
-    {
-      id: 0,
-      element: '🍉',
-    },
-    {
-      id: 1,
-      element: '🍋',
-    },
-    {
-      id: 2,
-      element: '🍍',
-    },
-    {
-      id: 3,
-      element: '🍎',
-    },
-    {
-      id: 4,
-      element: '🥝',
-    },
-    {
-      id: 5,
-      element: '🥥',
-    },
-    {
-      id: 6,
-      element: '🍒',
-    },
-    {
-      id: 7,
-      element: '🍊',
-    },
-  ]
+  const gameBoard = ['🍉','🍋','🍍','🍎','🥝','🥥','🍒','🍊'];
 
   const displaySaveBtn = () => {
     if (playerNameInput.value) {
@@ -168,7 +133,9 @@
     active.value = [];
     shuffledCards.value = [];
 
-    startGame();
+    setTimeout(() => {
+      startGame();
+    }, 0)
   }
 
   const compareCards = () => {
@@ -178,7 +145,7 @@
 
     setTimeout(() => {
       active.value = []
-    }, 1000)
+    }, 500)
 
     clickedCount.value = 0;
   }
