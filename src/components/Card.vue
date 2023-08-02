@@ -2,7 +2,6 @@
   <div class="gameboard__card" :disabled="cardsAreSame" :class="{'gameboard__card--active': isActive, 'gameboard__card--same': cardsAreSame}">
     <div class="gameboard__side gameboard__side--front">
       <div class="gameboard__logo">
-        {{ cardElement }}
         <img alt="Vue logo" class="logo" src="../assets/logo.svg" width="60" height="60" />
       </div>
     </div>
